@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>小遇的主页</title>
+  <link rel="icon" href="data:,">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { font-size: 14px; }
+    @media (max-width: 375px) { html { font-size: 12px; } }
+    @media (min-width: 768px) { html { font-size: 16px; } }
+
+    body {
+      background: #e8e6ed url("/img/bz.png") no-repeat center center fixed;
+      background-size: cover;
+      font-family: "Microsoft YaHei", "Heiti SC", "Segoe UI", system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(8px) saturate(160%);
+      -webkit-backdrop-filter: blur(8px) saturate(160%);
+      border-radius: 56px;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow:
+        0 40px 80px -30px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 1.0),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.20);
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.55);
+      border-color: rgba(255, 255, 255, 0.70);
+      box-shadow:
+        0 50px 100px -30px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 1.0),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.40),
+        0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    /* ===== 头部：头像 + 标题 ===== */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.6rem;
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    /* ===== 头像：粉紫渐变边框 + 呼吸 ===== */
+    .avatar-wrapper {
+      position: relative;
+      width: 5.6rem;
+      height: 5.6rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+      padding: 3px; /* 边框宽度 */
+      background: linear-gradient(135deg, #ff9eb5 0%, #c9a0e8 100%);
+      animation: breathe 3.2s ease-in-out infinite;
+      transition: transform 0.4s ease;
+    }
+
+    /* 悬停时轻微放大 */
+    .avatar-wrapper:hover {
+      transform: scale(1.05);
+      animation-play-state: paused;
+    }
+
+    /* 内层圆形遮罩头像 */
+    .avatar-wrapper .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.40);
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.60);
+    }
+
+    .avatar-wrapper .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ===== 呼吸动画 ===== */
+    @keyframes breathe {
+      0%, 100% {
+        box-shadow:
+          0 0 0 0 rgba(255, 158, 181, 0.55),
+          0 0 18px 4px rgba(201, 160, 232, 0.30),
+          0 8px 24px -8px rgba(0, 0, 0, 0.15);
+      }
+      50% {
+        box-shadow:
+          0 0 0 6px rgba(255, 158, 181, 0.00),
+          0 0 32px 10px rgba(201, 160, 232, 0.45),
+          0 8px 24px -8px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    /* ===== 标题：粉紫渐变 ===== */
+    .header-title h1 {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      line-height: 1.3;
+      background: linear-gradient(120deg, #ff9eb5 0%, #c9a0e8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      filter: drop-shadow(0 2px 6px rgba(255, 158, 181, 0.25));
+    }
+
+    .header-title .sub {
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: rgba(0, 0, 0, 0.55);
+      margin-top: 4px;
+    }
+
+    /* ===== 通用区块 ===== */
+    .section {
+      margin-bottom: 1.4rem;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: rgba(0, 0, 0, 0.60);
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+      padding-left: 0.6rem;
+      border-left: 3px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .section p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: #000000;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.50);
+    }
+
+    .section p + p {
+      margin-top: 0.6rem;
+    }
+
+    /* ===== 联系列表（纯文字列表，无按钮框架） ===== */
+    .link-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .link-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #000000;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .link-list li:last-child {
+      border-bottom: none;
+    }
+
+    .link-list li .icon {
+      font-size: 1.05rem;
+      opacity: 0.75;
+      width: 1.4rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .link-list li .label {
+      color: rgba(0, 0, 0, 0.60);
+      font-weight: 300;
+      min-width: 4.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== 列表链接：默认黑色，悬停粉紫渐变 ===== */
+    .link-list li a {
+      color: #000000;
+      text-decoration: none;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+      word-break: break-all;
+      transition: color 0.3s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    .link-list li a:hover {
+      background: linear-gradient(120deg, #ff9eb5 0%, #c9a0e8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-decoration: underline;
+      text-decoration-color: #ff9eb5;
+      text-underline-offset: 3px;
+    }
+
+    /* ===== 分隔线 ===== */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      margin: 1.2rem 0;
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+      color: #000000;
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 1px;
+      margin-top: 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 1rem;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer a:hover {
+      background: linear-gradient(120deg, #ff9eb5 0%, #c9a0e8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-decoration: underline;
+      text-decoration-color: #ff9eb5;
+      text-underline-offset: 3px;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 480px) {
+      body {
+        padding: 40px 15px;
+      }
+      .card {
+        padding: 1.8rem 1.2rem;
+        border-radius: 36px;
+      }
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+      .avatar-wrapper {
+        width: 4.6rem;
+        height: 4.6rem;
+        padding: 3px;
+      }
+      .header-title h1 {
+        font-size: 1.5rem;
+      }
+      .section p {
+        font-size: 0.85rem;
+        padding: 0.8rem 1rem;
+      }
+      .link-list li {
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+      }
+      .link-list li .label {
+        min-width: 3.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- ===== 头部：头像 + 标题 ===== -->
+    <div class="profile-header">
+      <div class="avatar-wrapper">
+        <div class="avatar-inner">
+          <img src="/img/my.png" alt="小遇的头像">
+        </div>
+      </div>
+      <div class="header-title">
+        <h1>小遇的主页</h1>
+        <div class="sub">残月 · 韵殷 · 素晚萧</div>
+      </div>
+    </div>
+
+    <!-- ===== 自我介绍 ===== -->
+    <div class="section">
+      <div class="section-title">自我介绍</div>
+      <p>
+        大家好，我叫小遇，我的其他网名包括（残月，残月敛，ruin，韵殷，素晚萧，不眠，落灰蝶）
+      </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== 个人信息 ===== -->
+    <div class="section">
+      <div class="section-title">个人信息</div>
+      <p>
+        我是个人制作者，但也是一个韵殷团队的技术领导兼主导人。<br>
+        我会 JavaScript，HTML+CSS+JS，Python，C++，Shell。<br>
+        曾制作过各种小脚本，用途广泛，大部分用于设备自检和服务器探索。曾制作过危险脚本，但因个人原因，不再继续制作，甚至已经从Q群文件里删掉所有危险脚本。也曾制作过软件，主要用于游戏辅助，因个人原因现已暂停更新。<br>
+        本人拥有许多社交账号，包括但不限于：QQ，微信，快手，哔哩哔哩，github，Telegram，YouTube……
+      </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== 韵殷团队 ===== -->
+    <div class="section">
+      <div class="section-title">韵殷团队</div>
+      <p>
+        我所在的韵殷团队是一个纯公益团队，仅制作用于公益分享的官网，其余文件或者是内容均为团队里的个人制作，仅套有韵殷团队名称，不附相关责任。
+      </p>
+      <p>
+        目前为止，韵殷团队涉及的范围相当广泛，但主要目标还是继续维护官网。<br>
+        QQ群之前因业务转变，曾一度差点没落，但是要感谢默默支持我们的用户，让韵殷团队成功的转变了业务，为大家建设了一个公益分享的官网，并且纯净无广，没有付费墙仅有自愿赞助页面。
+      </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== 官方网站 ===== -->
+    <div class="section">
+      <div class="section-title">官方网站</div>
+      <ul class="link-list">
+        <li>
+          <span class="icon">🌐</span>
+          <span class="label">网址一</span>
+          <a href="https://yunyincz.duckdns.org" target="_blank" rel="noopener">韵殷官网</a>
+        </li>
+        <li>
+          <span class="icon">🌐</span>
+          <span class="label">网址二</span>
+          <a href="https://yunyincz.dpdns.org" target="_blank" rel="noopener">韵殷官网</a>
+        </li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== 联系我们 ===== -->
+    <div class="section">
+      <div class="section-title">联系我们</div>
+      <ul class="link-list">
+        <li>
+          <span class="icon">🐧</span>
+          <span class="label">QQ群</span>
+          <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=VwMlRnEd6C%2B2vt%2BZfOCF4t%2FBH0THNxepxNwRNEWRIwRN91dZhlT3A7k3Qdq81jm2&busi_data=eyJncm91cENvZGUiOiI0NTQ0OTM5MDMiLCJ0b2tlbiI6IlN4NlQybGszN25LcHd0TjI2NExLbGhTSEgzWmVYVDFKRDVBeFJPT25wc0NGVDBhdGVNZVdwelpZdmwwZjFvSHUiLCJ1aW4iOiIzNTg1MzY2OTIyIn0%3D&data=zCH08RI0w6IXiqHB9fGv7nl1x5lWPI3Z87ikzq6FZ5PAOCqTDb864xUT1xZ_jfulfikPyiDdWIO19Yd5V0r8ig&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">残月小窝</a>
+        </li>
+        <li>
+          <span class="icon">✈️</span>
+          <span class="label">TG群</span>
+          <a href="tg://resolve?domain=YvaineHub" target="_blank" rel="noopener">闲聊群</a>
+        </li>
+        <li>
+          <span class="icon">✈️</span>
+          <span class="label">TG账号</span>
+          <a href="tg://resolve?domain=CanYuLian" target="_blank" rel="noopener">残月敛</a>
+        </li>
+        <li>
+          <span class="icon">💬</span>
+          <span class="label">QQ账号</span>
+          <a href="https://qm.qq.com/q/ftPyHHAwow" target="_blank" rel="noopener">𝓡𝓾𝓲𝓷</a>
+        </li>
+        <li>
+          <span class="icon">📨</span>
+          <span class="label">邮箱</span>
+          <a href="mailto:ruinwisp@outlook.com">𝓦𝓲𝓼𝓹</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ===== 页脚 ===== -->
+    <div class="footer">
+      © 2026 小遇 · 残月敛 · 韵殷团队
+    </div>
+
+  </div>
+
+</body>
+</html>
